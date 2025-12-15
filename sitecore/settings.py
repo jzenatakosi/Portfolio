@@ -42,12 +42,11 @@ WSGI_APPLICATION = "sitecore.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        # MySQL database name (string). 
-        "NAME": "myportfolio",        # <-- the DB you created in MySQL
-        "USER": "Admin",              # your DB user (case-sensitive)
-        "PASSWORD": "Admin@123",      # your DB password
-        "HOST": "localhost",
-        "PORT": "3306",
+        "NAME": os.getenv("DB_NAME", "myportfolio"),
+        "USER": os.getenv("DB_USER", "Admin"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),  # No default for security!
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", "3306"),
         "OPTIONS": {
             "charset": "utf8mb4",
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
