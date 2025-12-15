@@ -1,0 +1,30 @@
+# Python
+*.py[cod]
+*$py.class
+__pycache__/
+*.so
+
+# Django
+*.log
+media/
+staticfiles/
+db.sqlite3
+db.sqlite3-journal
+
+# Environment variables (contains MySQL credentials!)
+.env
+*.env
+
+# Virtual environment
+myportfolio/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
