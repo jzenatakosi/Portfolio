@@ -1,0 +1,30 @@
+{% extends "protfolio/base.html" %}
+{% load static %}
+
+{% block title %}Blog — Robinson{% endblock %}
+
+{% block content %}
+<section class="card">
+  <header>
+    <h1>Blog</h1>
+  </header>
+
+  <div class="blog-list" aria-live="polite">
+    {% for post in posts %}
+      <article class="blog-card" aria-labelledby="post-{{ post.pk }}">
+        <h3 id="post-{{ post.pk }}">
+          <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </h3>
+
+        <div style="color:#9ca3af;font-size:13px">{{ post.published_at|date:"F j, Y" }}</div>
+
+        {% if post.summary %}
+          <p style="color:#9ca3af;margin-top:8px">{{ post.summary }}</p>
+        {% endif %}
+      </article>
+    {% empty %}
+      <p>No blog posts yet — create one via the admin.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

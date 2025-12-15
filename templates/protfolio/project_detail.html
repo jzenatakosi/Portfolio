@@ -1,0 +1,58 @@
+{% extends "protfolio/base.html" %}
+{% load static %}
+
+{% block title %}{{ project.title }} — Robinson{% endblock %}
+
+{% block head %}
+  <meta name="description" content="{{ project.summary|truncatechars:160 }}">
+  <meta property="og:title" content="{{ project.title }}">
+  <meta property="og:description" content="{{ project.summary|truncatechars:160 }}">
+  {% if project.image %}
+    <meta property="og:image" content="{{ project.image.url }}">
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="card project-detail" aria-labelledby="project-title">
+  <header>
+    <h1 id="project-title">{{ project.title }}</h1>
+    {% if project.summary %}
+      <p style="color:#9ca3af">{{ project.summary }}</p>
+    {% endif %}
+  </header>
+
+  {% if project.image %}
+    <figure style="margin:12px 0">
+      <img src="{{ project.image.url }}" alt="{{ project.title }} screenshot" style="width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.02)">
+    </figure>
+  {% endif %}
+
+  <section>
+    <h3>Details</h3>
+    <div class="project-description">
+      {{ project.description|linebreaks }}
+    </div>
+  </section>
+
+  {% if project.tech %}
+    <section style="margin-top:10px">
+      <h4>Tech</h4>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        {% for t in project.tech %}
+          <span class="chip">{{ t }}</span>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+  <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+    {% if project.repo_url %}
+      <a class="ghost" href="{{ project.repo_url }}" target="_blank" rel="noopener">View source on GitHub</a>
+    {% endif %}
+
+    {% if project.live_url %}
+      <a class="btn" href="{{ project.live_url }}" target="_blank" rel="noopener">Open demo</a>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

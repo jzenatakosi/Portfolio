@@ -1,0 +1,51 @@
+{% extends "protfolio/base.html" %}
+{% load static %}
+
+{% block title %}{{ post.title }} — Robinson{% endblock %}
+
+{% block head %}
+  <meta name="description" content="{{ post.excerpt|default:post.summary|default:''|truncatechars:160 }}">
+  <meta property="og:title" content="{{ post.title }}">
+  <meta property="og:description" content="{{ post.excerpt|default:post.summary|default:''|truncatechars:160 }}">
+  {% if post.image %}
+    <meta property="og:image" content="{{ post.image.url }}">
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<article class="card blog-post" itemscope itemtype="http://schema.org/Article" aria-labelledby="post-title">
+  <header>
+    <h1 id="post-title" itemprop="headline">{{ post.title }}</h1>
+
+    <div style="color:#9ca3af;font-size:13px;margin-bottom:12px" aria-label="post meta">
+      <time datetime="{{ post.published_at|date:'Y-m-d' }}" itemprop="datePublished">
+        {{ post.published_at|date:"F j, Y" }}
+      </time>
+      {% if post.read_time %}
+        • <span itemprop="timeRequired">{{ post.read_time }} min read</span>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if post.image %}
+    <figure style="margin-bottom:12px">
+      <img src="{{ post.image.url }}" alt="{{ post.title }} featured image" style="width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.02)">
+    </figure>
+  {% endif %}
+
+  <div class="post-body" itemprop="articleBody">
+    {{ content_html|safe }}
+</div>
+
+  <footer style="margin-top:18px">
+    <hr style="margin-top:16px;opacity:0.06">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+      <a href="{% url 'protfolio:blog-list' %}" class="ghost" aria-label="Back to blog">← Back to blog</a>
+
+      <a class="chip" href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri }}" target="_blank" rel="noopener">Share on Twitter</a>
+
+      <a class="chip" href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title|urlencode }}" target="_blank" rel="noopener">Share on LinkedIn</a>
+    </div>
+  </footer>
+</article>
+{% endblock %}

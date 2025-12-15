@@ -1,0 +1,100 @@
+{% extends "protfolio/base.html" %}
+{% load static %}
+
+{% block title %}Home — Paul Ngambwa{% endblock %}
+
+{% block content %}
+<section class="hero card">
+  <div class="intro">
+    <h1>Hi, I'm Paul</h1>
+    <p class="lead">I build secure systems and turn data into insight.</p>
+
+    <div class="hero-cta">
+      <a class="btn" href="{% url 'protfolio:blog-list' %}">Read my blog</a>
+      <a class="ghost" href="{% url 'protfolio:contact' %}">Contact</a>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="card center">
+     <div class="profile-block">
+              <img class="avatar-img" src="{% static 'protfolio/images/avatar2.jpeg' %}" alt="Paul Robinson">
+          
+
+          <div class="profile-name">Paul Ngambwa</div>
+
+          <div class="profile-role">Software Engineer • Security &amp; Data</div>
+    </div>
+
+
+      <div class="skills" aria-label="Skills">
+        <span class="chip">Python</span>
+        <span class="chip">Django</span>
+        <span class="chip">React</span>
+        <span class="chip">C/C++</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<section class="projects" id="projects">
+  <h2>Selected projects</h2>
+
+  <div class="grid">
+    {% for project in projects %}
+      <article class="project">
+
+        {% if project.image %}
+          <a href="{{ project.get_absolute_url }}">
+            <img src="{{ project.image.url }}" alt="{{ project.title }} screenshot" class="project-image">
+          </a>
+        {% endif %}
+
+        <h3>
+          <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+        </h3>
+
+        <p class="project-summary">{{ project.summary }}</p>
+
+        <div class="project-meta">
+          {% if project.tech %}
+            <div class="tags">
+              {% for t in project.tech %}
+                <span class="chip">{{ t }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <div class="project-links">
+            {% if project.repo_url %}
+              <a class="source-link" href="{{ project.repo_url }}" target="_blank" rel="noopener">Source →</a>
+            {% endif %}
+
+            {% if project.demo_url %}
+              <a class="source-link" href="{{ project.demo_url }}" target="_blank" rel="noopener">Demo</a>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+    {% empty %}
+      <p>No projects yet — add some via admin.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="latest-posts">
+  <h2>From the blog</h2>
+
+  <ul>
+    {% for post in latest_posts %}
+      <li>
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        — <time datetime="{{ post.created_at|date:'Y-m-d' }}">{{ post.created_at|date:"M d, Y" }}</time>
+      </li>
+    {% empty %}
+      <li>No posts yet.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}
+
